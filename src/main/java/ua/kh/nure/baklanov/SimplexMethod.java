@@ -20,7 +20,7 @@ public class SimplexMethod {
      * @return суммарная выгода плана x
      */
 
-    public static void simplexDoubleMaximize(double[][] A, double[] b, double[] c, String[]rel) {
+    public static double[] simplexDoubleMaximize(double[][] A, double[] b, double[] c, String[]rel) {
 
 //    return justOneMaximize(A,b,c, x); // maybe fast, but not precission
         double[] x = new double[A.length];
@@ -60,19 +60,24 @@ public class SimplexMethod {
             {
                 System.out.println("x"+i+" равно "+x_[i]);
             }
-            for (int i=0;i<x_.length;i++) if (x_[i]>0) x_[i]=Math.round(x_[i]-0.5);
-            System.arraycopy(x_, 0, x, 0, x.length);
+            //for (int i=0;i<x_.length;i++) if (x_[i]>0) x_[i]=Math.round(x_[i]-0.5);
+            //System.arraycopy(x_, 0, x, 0, x.length);
+            double[]result= new double[x_.length+1];
+            System.arraycopy (x_, 0, result, 1, 5);
+            result[0]=optSolution.getValue();
             System.out.println(optSolution.getValue());
-            //return optSolution.getValue();
+            return result;
         }
        catch (Exception e)
        {
            System.out.println("Исходная задача не имеет опорного плана!");
        }
+
         // - - -
+        return null;
     }
 
-    public static void simplexDoubleMinimize(double[][] A, double[] b, double[] c, String[]rel) {
+    public static double[] simplexDoubleMinimize(double[][] A, double[] b, double[] c, String[]rel) {
 
 //    return justOneMaximize(A,b,c, x); // maybe fast, but not precission
         double[] x = new double[A.length];
@@ -112,11 +117,14 @@ public class SimplexMethod {
             {
                 System.out.println("x"+i+" равно "+x_[i]);
             }
-            for (int i=0;i<x_.length;i++) if (x_[i]>0) x_[i]=Math.round(x_[i]-0.5);
+           // for (int i=0;i<x_.length;i++) if (x_[i]>0) x_[i]=Math.round(x_[i]-0.5);
 
-            System.arraycopy(x_, 0, x, 0, x.length);
+            //System.arraycopy(x_, 0, x, 0, x.length);
+            double[]result= new double[x_.length+1];
+            System.arraycopy (x_, 0, result, 1, 5);
+            result[0]=optSolution.getValue();
             System.out.println(optSolution.getValue());
-           // return optSolution.getValue();
+            return result;
         }
 
  catch (Exception e)
@@ -128,6 +136,7 @@ public class SimplexMethod {
 
 
         // - - -
+        return null;
     }
 
 

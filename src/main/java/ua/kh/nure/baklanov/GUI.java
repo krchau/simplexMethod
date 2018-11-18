@@ -44,6 +44,8 @@ public abstract class GUI extends JFrame implements ActionListener, Runnable{
     final static JTextArea c5 = new JTextArea("0");
     final static JButton acceptMax = new JButton("Maximize");
     final static JButton acceptMin = new JButton("Minimize");
+    final static JLabel target= new JLabel("F(x)=");
+    final static JLabel result= new JLabel();
     static String[] items = {
             "<=",
             "=",
@@ -164,6 +166,8 @@ public abstract class GUI extends JFrame implements ActionListener, Runnable{
         pane.add(comboBox3);
         pane.add(comboBox4);
         pane.add(comboBox5);
+        pane.add(target);
+        pane.add(result);
 
 
         b11.setBounds(25, 25, 50,25);
@@ -201,13 +205,15 @@ public abstract class GUI extends JFrame implements ActionListener, Runnable{
         c3.setBounds(250, 300, 50, 25);
         c4.setBounds(325, 300, 50,25);
         c5.setBounds(400, 300, 50,25);
-        acceptMax.setBounds(275, 350,100,25);
-        acceptMin.setBounds(400, 350,100,25);
+        acceptMax.setBounds(275, 400,100,25);
+        acceptMin.setBounds(400, 400,100,25);
         comboBox1.setBounds(450,25,50,25);
         comboBox2.setBounds(450,75,50,25);
         comboBox3.setBounds(450,125,50,25);
         comboBox4.setBounds(450,175,50,25);
         comboBox5.setBounds(450,225,50,25);
+        target.setBounds(50, 300, 50,25);
+        result.setBounds(50, 350,600,25);
 
         acceptMax.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -230,7 +236,20 @@ public abstract class GUI extends JFrame implements ActionListener, Runnable{
                     }*/
 
                     SimplexMethod sm = new SimplexMethod();
-                    sm.simplexDoubleMaximize(createArrayA(),createArrayB(),createArrayC(),getRelationship());
+                    if (sm.simplexDoubleMaximize(createArrayA(),createArrayB(),createArrayC(),getRelationship())!=null) {
+                        double[] resultArray = sm.simplexDoubleMaximize(createArrayA(), createArrayB(), createArrayC(), getRelationship());
+
+                        StringBuilder sb = new StringBuilder();
+                        sb.append("Значение целевой функции: " + resultArray[0]);
+                        for (int i = 1; i < resultArray.length; i++) {
+                            sb.append(" , x[").append(i).append("]= ").append(resultArray[i]);
+                        }
+                        result.setText(sb.toString());
+                    }
+                    else
+                    {
+                        result.setText("Исходная задача не имеет опорного плана!");
+                    }
                 }
             }
         });
@@ -241,21 +260,22 @@ public abstract class GUI extends JFrame implements ActionListener, Runnable{
                         b51.getText().equals("") || b52.getText().equals("") || b53.getText().equals("") || b54.getText().equals("") || b55.getText().equals("")|| b1.getText().equals("")|| b2.getText().equals("")|| b3.getText().equals("")|| b4.getText().equals("")|| b5.getText().equals("")) {
 
                 } else {
-
-
-                    /*int width = 5, heigth = 5;
-                    for (int i = 0; i < A.length; i++) {
-                        if (A[i][0] == 0 && A[i][1] == 0 && A[i][2] == 0 && A[i][3] == 0 && A[i][4] == 0) {
-                            heigth--;
-
-                        }
-                        if (A[0][i] == 0 && A[1][i] == 0 && A[2][i] == 0 && A[3][i] == 0 && A[4][i] == 0) {
-                            width--;
-                        }
-                    }*/
-
                     SimplexMethod sm = new SimplexMethod();
-                    sm.simplexDoubleMinimize(createArrayA(),createArrayB(),createArrayC(),getRelationship());
+                    if (sm.simplexDoubleMinimize(createArrayA(),createArrayB(),createArrayC(),getRelationship())!=null) {
+                    double []resultArray=sm.simplexDoubleMinimize(createArrayA(),createArrayB(),createArrayC(),getRelationship());
+
+                    StringBuilder sb= new StringBuilder();
+                    sb.append("Значение целевой функции: "+resultArray[0]);
+                    for (int i=1;i<resultArray.length;i++)
+                    {
+                        sb.append(" , x[").append(i).append("]= ").append(resultArray[i]);
+                    }
+                    result.setText(sb.toString());
+                    }
+                    else
+                    {
+                        result.setText("Исходная задача не имеет опорного плана!");
+                    }
                 }
             }
         });
@@ -269,8 +289,8 @@ public abstract class GUI extends JFrame implements ActionListener, Runnable{
 
         addComponentsToPane(frame.getContentPane());
 
-        frame.setSize(800,
-                800);
+        frame.setSize(700,
+                600);
         frame.setVisible(true);
     }
 
